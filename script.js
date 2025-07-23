@@ -3,6 +3,8 @@
     const countdown = document.getElementById('countdown');
     if (!countdown) return;
 
+    const dynamicEl = document.getElementById('countdown-dynamic');
+
     const daysEl = countdown.querySelector('.days');
     const hoursEl = countdown.querySelector('.hours');
     const minutesEl = countdown.querySelector('.minutes');
@@ -19,6 +21,9 @@
             hoursEl.textContent = 0;
             minutesEl.textContent = 0;
             secondsEl.textContent = 0;
+            if (dynamicEl) {
+                dynamicEl.textContent = '0 días, 0 horas, 0 minutos y 0 segundos';
+            }
             clearInterval(interval);
             return;
         }
@@ -32,6 +37,10 @@
         hoursEl.textContent = hours;
         minutesEl.textContent = minutes;
         secondsEl.textContent = seconds;
+
+        if (dynamicEl) {
+            dynamicEl.textContent = `${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos`;
+        }
     }
 
     const interval = setInterval(updateCountdown, 1000);
