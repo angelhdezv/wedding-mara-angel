@@ -42,37 +42,41 @@
     if (!carousel) return;
 
     const imageFiles = ['1.jpeg', '2.jpeg', '3.jpeg'];
-    const images = [];
+    const items = [];
 
     imageFiles.forEach((file, index) => {
+        const item = document.createElement('div');
+        item.classList.add('carousel-item');
+
+        if (index === 0) {
+            item.classList.add('prev');
+        } else if (index === 1) {
+            item.classList.add('current');
+        } else {
+            item.classList.add('next');
+        }
+
         const img = document.createElement('img');
         img.src = `images/us/${file}`;
         img.alt = `Imagen ${index + 1}`;
         img.classList.add('carousel-img');
 
-        if (index === 0) {
-            img.classList.add('prev');
-        } else if (index === 1) {
-            img.classList.add('current');
-        } else {
-            img.classList.add('next');
-        }
-
-        carousel.appendChild(img);
-        images.push(img);
+        item.appendChild(img);
+        carousel.appendChild(item);
+        items.push(item);
     });
 
     function rotateClasses() {
-        images.forEach(img => {
-            if (img.classList.contains('prev')) {
-                img.classList.remove('prev');
-                img.classList.add('next');
-            } else if (img.classList.contains('current')) {
-                img.classList.remove('current');
-                img.classList.add('prev');
-            } else if (img.classList.contains('next')) {
-                img.classList.remove('next');
-                img.classList.add('current');
+        items.forEach(item => {
+            if (item.classList.contains('prev')) {
+                item.classList.remove('prev');
+                item.classList.add('next');
+            } else if (item.classList.contains('current')) {
+                item.classList.remove('current');
+                item.classList.add('prev');
+            } else if (item.classList.contains('next')) {
+                item.classList.remove('next');
+                item.classList.add('current');
             }
         });
     }
