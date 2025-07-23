@@ -48,14 +48,6 @@
         const item = document.createElement('div');
         item.classList.add('carousel-item');
 
-        if (index === 0) {
-            item.classList.add('prev');
-        } else if (index === 1) {
-            item.classList.add('current');
-        } else {
-            item.classList.add('next');
-        }
-
         const img = document.createElement('img');
         img.src = `images/us/${file}`;
         img.alt = `Imagen ${index + 1}`;
@@ -66,20 +58,23 @@
         items.push(item);
     });
 
-    function rotateClasses() {
-        items.forEach(item => {
-            if (item.classList.contains('prev')) {
-                item.classList.remove('prev');
-                item.classList.add('next');
-            } else if (item.classList.contains('current')) {
-                item.classList.remove('current');
-                item.classList.add('prev');
-            } else if (item.classList.contains('next')) {
-                item.classList.remove('next');
-                item.classList.add('current');
-            }
+    let currentIndex = 0;
+
+    function showIndex(index) {
+        const itemWidth = items[0].getBoundingClientRect().width;
+        carousel.style.transform = `translateX(-${index * itemWidth}px)`;
+        items.forEach((item, idx) => {
+            item.classList.toggle('active', idx === index);
         });
     }
 
-    setInterval(rotateClasses, 2000);
+    function next() {
+        currentIndex = (currentIndex + 1) % items.length;
+        showIndex(currentIndex);
+    }
+
+    showIndex(0);
+    setInterval(next, 1500);
+
+    window.addEventListener('resize', () => showIndex(currentIndex));
 })();
