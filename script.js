@@ -1,4 +1,3 @@
-// Countdown
 (function() {
     const countdown = document.getElementById('countdown');
     if (!countdown) return;
@@ -38,12 +37,11 @@
     updateCountdown();
 })();
 
-// Carrusel fade
-(function () {
+(function() {
     const container = document.querySelector('.carousel-fade');
     if (!container) return;
 
-    const imageFiles = ['1.jpeg', '2.jpeg', '3.jpeg']; // Asegúrate que existan
+    const imageFiles = ['1.jpeg', '2.jpeg', '3.jpeg'];
     const images = [];
 
     imageFiles.forEach((file, index) => {
@@ -55,17 +53,13 @@
     });
 
     let currentIndex = 0;
+    images[currentIndex].classList.add('active');
 
-    function showImage(index) {
-        images.forEach((img, i) => {
-            img.classList.toggle('active', i === index);
-        });
+    function next() {
+        images[currentIndex].classList.remove('active');
+        currentIndex = (currentIndex + 1) % images.length;
+        images[currentIndex].classList.add('active');
     }
 
-    showImage(currentIndex);
-
-    setInterval(() => {
-        currentIndex = (currentIndex + 1) % images.length;
-        showImage(currentIndex);
-    }, 1000); // 1 segundo
+    setInterval(next, 3000);
 })();
