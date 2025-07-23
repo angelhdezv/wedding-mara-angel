@@ -59,23 +59,28 @@ main {
     overflow: hidden;
 }
 
-.carousel-img {
+.carousel-item {
     flex: 0 0 33.33%;
     width: 33.33%;
-    max-width: 100%;
     height: 300px;
+    overflow: hidden;
+}
+
+.carousel-img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     border-radius: 4px;
     transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
-.carousel-img.prev,
-.carousel-img.next {
+.carousel-item.prev .carousel-img,
+.carousel-item.next .carousel-img {
     transform: scale(0.9);
     opacity: 0.4;
 }
 
-.carousel-img.current {
+.carousel-item.current .carousel-img {
     transform: scale(1.1);
     opacity: 1;
 }
@@ -179,7 +184,7 @@ main {
         font-size: 1.5rem;
     }
 
-    .carousel-img {
+    .carousel-item {
         height: 300px;
     }
 
