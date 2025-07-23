@@ -38,43 +38,37 @@
 })();
 
 (function() {
-    const carousel = document.querySelector('.carousel');
-    if (!carousel) return;
+    const track = document.querySelector('.carousel-track');
+    if (!track) return;
 
     const imageFiles = ['1.jpeg', '2.jpeg', '3.jpeg'];
-    const items = [];
+    const images = [];
 
     imageFiles.forEach((file, index) => {
-        const item = document.createElement('div');
-        item.classList.add('carousel-item');
-
         const img = document.createElement('img');
         img.src = `images/us/${file}`;
         img.alt = `Imagen ${index + 1}`;
-        img.classList.add('carousel-img');
-
-        item.appendChild(img);
-        carousel.appendChild(item);
-        items.push(item);
+        track.appendChild(img);
+        images.push(img);
     });
 
     let currentIndex = 0;
 
-    function showIndex(index) {
-        const itemWidth = items[0].getBoundingClientRect().width;
-        carousel.style.transform = `translateX(-${index * itemWidth}px)`;
-        items.forEach((item, idx) => {
-            item.classList.toggle('active', idx === index);
+    function showIndex() {
+        const slideWidth = images[0].getBoundingClientRect().width;
+        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+        images.forEach((img, idx) => {
+            img.classList.toggle('active', idx === currentIndex);
         });
     }
 
     function next() {
-        currentIndex = (currentIndex + 1) % items.length;
-        showIndex(currentIndex);
+        currentIndex = (currentIndex + 1) % images.length;
+        showIndex();
     }
 
-    showIndex(0);
-    setInterval(next, 1500);
+    showIndex();
+    setInterval(next, 3000);
 
-    window.addEventListener('resize', () => showIndex(currentIndex));
+    window.addEventListener('resize', showIndex);
 })();
