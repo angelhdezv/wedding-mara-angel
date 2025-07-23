@@ -36,3 +36,28 @@
     const interval = setInterval(updateCountdown, 1000);
     updateCountdown();
 })();
+
+(function() {
+    const carousel = document.querySelector('.carousel');
+    if (!carousel) return;
+
+    const images = carousel.querySelectorAll('.carousel-img');
+    if (images.length !== 3) return;
+
+    function rotateClasses() {
+        images.forEach(img => {
+            if (img.classList.contains('prev')) {
+                img.classList.remove('prev');
+                img.classList.add('next');
+            } else if (img.classList.contains('current')) {
+                img.classList.remove('current');
+                img.classList.add('prev');
+            } else if (img.classList.contains('next')) {
+                img.classList.remove('next');
+                img.classList.add('current');
+            }
+        });
+    }
+
+    setInterval(rotateClasses, 3500);
+})();
