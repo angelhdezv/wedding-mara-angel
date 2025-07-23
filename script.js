@@ -38,16 +38,17 @@
     updateCountdown();
 })();
 
-// Carrusel fade
+// Carrusel estilo Polaroid
 (function () {
-    const container = document.querySelector('.carousel-fade');
+    const container = document.querySelector('.carousel-polaroid');
     if (!container) return;
 
-    const imageFiles = ['1.jpeg', '2.jpeg', '3.jpeg']; // Asegúrate que existan
+    const imageFiles = ['1.jpeg', '2.jpeg', '3.jpeg'];
     const images = [];
 
     imageFiles.forEach((file, index) => {
         const img = document.createElement('img');
+        img.className = 'polaroid-image';
         img.src = `images/us/${file}`;
         img.alt = `Imagen ${index + 1}`;
         container.appendChild(img);
@@ -67,5 +68,5 @@
     setInterval(() => {
         currentIndex = (currentIndex + 1) % images.length;
         showImage(currentIndex);
-    }, 1000); // 1 segundo
+    }, 5000); // 5 segundos
 })();
