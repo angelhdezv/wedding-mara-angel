@@ -41,8 +41,26 @@
     const carousel = document.querySelector('.carousel');
     if (!carousel) return;
 
-    const images = carousel.querySelectorAll('.carousel-img');
-    if (images.length !== 3) return;
+    const imageFiles = ['1.jpeg', '2.jpeg', '3.jpeg'];
+    const images = [];
+
+    imageFiles.forEach((file, index) => {
+        const img = document.createElement('img');
+        img.src = `images/us/${file}`;
+        img.alt = `Imagen ${index + 1}`;
+        img.classList.add('carousel-img');
+
+        if (index === 0) {
+            img.classList.add('prev');
+        } else if (index === 1) {
+            img.classList.add('current');
+        } else {
+            img.classList.add('next');
+        }
+
+        carousel.appendChild(img);
+        images.push(img);
+    });
 
     function rotateClasses() {
         images.forEach(img => {
@@ -59,5 +77,5 @@
         });
     }
 
-    setInterval(rotateClasses, 3000);
+    setInterval(rotateClasses, 2000);
 })();
