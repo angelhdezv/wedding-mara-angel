@@ -95,6 +95,10 @@ main {
     justify-content: center;
     gap: 1rem;
 }
+#countdown-message {
+    margin: 1rem 0;
+    font-size: 1rem;
+}
 
 .time-box {
     display: flex;
@@ -186,6 +190,10 @@ main {
     font-size: 1.1rem;
     margin-bottom: 0.25rem;
 }
+.event-time {
+    margin-bottom: 0.25rem;
+    font-weight: 700;
+}
 
 .location-address {
     margin-bottom: 1rem;
@@ -219,6 +227,9 @@ main {
 
     .time-box span {
         font-size: 2rem;
+    }
+    #countdown-message {
+        font-size: 1.25rem;
     }
 
     .special-celebration h2 {
