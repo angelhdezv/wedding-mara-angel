@@ -38,8 +38,8 @@
 })();
 
 (function() {
-    const track = document.querySelector('.carousel-track');
-    if (!track) return;
+    const container = document.querySelector('.carousel-fade');
+    if (!container) return;
 
     const imageFiles = ['1.jpeg', '2.jpeg', '3.jpeg'];
     const images = [];
@@ -48,27 +48,18 @@
         const img = document.createElement('img');
         img.src = `images/us/${file}`;
         img.alt = `Imagen ${index + 1}`;
-        track.appendChild(img);
+        container.appendChild(img);
         images.push(img);
     });
 
     let currentIndex = 0;
-
-    function showIndex() {
-        const slideWidth = images[0].getBoundingClientRect().width;
-        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-        images.forEach((img, idx) => {
-            img.classList.toggle('active', idx === currentIndex);
-        });
-    }
+    images[currentIndex].classList.add('active');
 
     function next() {
+        images[currentIndex].classList.remove('active');
         currentIndex = (currentIndex + 1) % images.length;
-        showIndex();
+        images[currentIndex].classList.add('active');
     }
 
-    showIndex();
     setInterval(next, 3000);
-
-    window.addEventListener('resize', showIndex);
 })();
