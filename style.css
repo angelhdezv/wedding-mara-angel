@@ -38,6 +38,36 @@ body {
     margin: 1rem 0 2rem;
 }
 
+.carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.carousel-img {
+    width: 33%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.carousel-img.prev,
+.carousel-img.next {
+    transform: scale(0.8);
+    opacity: 0.5;
+    filter: blur(2px);
+}
+
+.carousel-img.current {
+    transform: scale(1.1);
+    opacity: 1;
+    filter: none;
+}
+
 .countdown {
     display: flex;
     justify-content: center;
@@ -93,6 +123,10 @@ body {
 
     .tagline {
         font-size: 1.5rem;
+    }
+
+    .carousel-img {
+        height: 250px;
     }
 
     .time-box span {
