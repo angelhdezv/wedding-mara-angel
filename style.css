@@ -48,17 +48,18 @@ body {
 }
 
 .carousel-img {
-    width: 33%;
+    width: 33.33%;
+    flex: 0 0 33.33%;
     height: 150px;
     object-fit: cover;
     border-radius: 4px;
-    transition: transform 0.5s ease, opacity 0.5s ease;
+    transition: transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease;
 }
 
 .carousel-img.prev,
 .carousel-img.next {
-    transform: scale(0.8);
-    opacity: 0.5;
+    transform: scale(0.9);
+    opacity: 0.4;
     filter: blur(2px);
 }
 

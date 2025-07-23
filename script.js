@@ -59,5 +59,5 @@
         });
     }
 
-    setInterval(rotateClasses, 3500);
+    setInterval(rotateClasses, 3000);
 })();
