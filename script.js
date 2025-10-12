@@ -1,5 +1,5 @@
 // Countdown
-(function() {
+(function () {
     const countdown = document.getElementById('countdown');
     if (!countdown) return;
 
@@ -78,4 +78,25 @@
         currentIndex = (currentIndex + 1) % images.length;
         showImage(currentIndex);
     }, 5000); // 5 segundos
+})();
+
+//Envelope
+(function () {
+    const screen = document.getElementById('envelope-screen');
+    const envelope = screen?.querySelector('.envelope');
+    if (!envelope) return;
+
+    envelope.addEventListener('click', () => {
+        envelope.classList.add('open');
+
+        // Esperamos que se abra la solapa y suba la carta
+        setTimeout(() => {
+            envelope.classList.add('fade-out');
+        }, 2000);
+
+        // Luego ocultamos el overlay y mostramos la invitación
+        setTimeout(() => {
+            screen.classList.add('hide');
+        }, 3000);
+    });
 })();

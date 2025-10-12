@@ -13,6 +13,119 @@ body {
     line-height: 1.5;
 }
 
+/* ==============================
+   SOBRE ANIMADO DE ENTRADA
+============================== */
+.envelope-screen {
+  position: fixed;
+  inset: 0;
+  background: #fdf6f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  transition: opacity 1s ease;
+}
+
+.envelope {
+  position: relative;
+  width: 260px;
+  height: 180px;
+  background: #fff0e6;
+  border: 2px solid #e0b89a;
+  border-radius: 4px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #f0cbb3;
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+  transform-origin: top;
+  transition: transform 1s ease;
+  z-index: 3;
+}
+
+.envelope-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70%;
+  background: #f0cbb3;
+  border-top: 2px solid #e0b89a;
+}
+
+.envelope-front {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .25rem;
+  text-align: center;
+  z-index: 4;
+  pointer-events: none;
+  transition: opacity .6s ease, transform .6s ease;
+}
+
+.front-names {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: #623b2c;
+}
+
+.front-hint {
+  font-size: .9rem;
+  color: #8a5b47;
+  opacity: .9;
+}
+
+.envelope.open .envelope-front {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+.envelope-letter {
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  height: 90%;
+  background: #fff;
+  text-align: center;
+  padding-top: 40px;
+  font-family: 'Playfair Display', serif;
+  color: #623b2c;
+  transition: bottom 1s ease;
+  z-index: 2;
+}
+
+.envelope.open .envelope-flap {
+  transform: rotateX(180deg);
+}
+
+.envelope.open .envelope-letter {
+  bottom: 10%;
+}
+
+.envelope.fade-out {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 1s ease;
+}
+
+.envelope-screen.hide {
+  opacity: 0;
+  pointer-events: none;
+}
 
 .header {
     background-color: #f3f3f3;
@@ -95,6 +208,7 @@ main {
     justify-content: center;
     gap: 1rem;
 }
+
 #countdown-message {
     margin: 1rem 0;
     font-size: 1rem;
@@ -190,6 +304,7 @@ main {
     font-size: 1.1rem;
     margin-bottom: 0.25rem;
 }
+
 .event-time {
     margin-bottom: 0.25rem;
     font-weight: 700;
@@ -228,6 +343,7 @@ main {
     .time-box span {
         font-size: 2rem;
     }
+
     #countdown-message {
         font-size: 1.25rem;
     }
