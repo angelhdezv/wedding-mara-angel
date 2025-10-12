@@ -1,3 +1,8 @@
+const DBInvitados = {
+  "Pruebita": 1,
+  "Pruebitita": 2
+};
+
 // Countdown
 (function () {
     const countdown = document.getElementById('countdown');
@@ -99,4 +104,43 @@
             screen.classList.add('hide');
         }, 2000);
     });
+})();
+
+// === INVITADOS PERSONALIZADOS ===
+(async function () {
+  const params = new URLSearchParams(window.location.search);
+  const nombre = params.get('nombre');
+  if (!nombre) return;
+
+  const guestInfoDiv = document.createElement('section');
+  guestInfoDiv.classList.add('guest-info');
+  document.querySelector('main').prepend(guestInfoDiv);
+
+  try {
+    const data = DBInvitados;
+
+    console.log("data: "+data)
+
+    console.log("nombre: "+nombre)
+    const boletos = data[nombre];
+    console.log("boletos: "+boletos)
+    if (boletos) {
+      guestInfoDiv.innerHTML = `
+        <p>👋 Hola <strong>${decodeURIComponent(nombre)}</strong>,</p>
+        <p>Este enlace incluye <strong>${boletos}</strong> boleto${boletos > 1 ? 's' : ''} 🎟️</p>
+      `;
+    } else {
+      guestInfoDiv.innerHTML = `
+        <p>👋 Hola <strong>${decodeURIComponent(nombre)}</strong>,</p>
+        <p>No encontramos boletos asignados a este enlace 😔.<br>
+        Por favor contacta a Maraitzi o Ángel 💌</p>
+      `;
+    }
+  } catch (error) {
+    console.error('Error cargando DBInvitados.json:', error);
+    guestInfoDiv.innerHTML = `
+      <p>⚠️ No se pudo verificar tu invitación en este momento.<br>
+      Intenta más tarde o contacta a los novios 💌</p>
+    `;
+  }
 })();

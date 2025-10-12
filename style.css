@@ -272,6 +272,23 @@ body {
     pointer-events: none;
 }
 
+.guest-info {
+  text-align: center;
+  background-color: #fffaf5;
+  border: 2px solid #f1df9b;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 2rem auto;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-family: 'Playfair Display', serif;
+  color: #5a3d2e;
+}
+.guest-info strong {
+  color: #2c1a0b;
+}
+
 .header {
     background-color: #f3f3f3;
     text-align: center;
