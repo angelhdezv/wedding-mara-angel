@@ -97,6 +97,6 @@
         // Luego ocultamos el overlay y mostramos la invitación
         setTimeout(() => {
             screen.classList.add('hide');
-        }, 3000);
+        }, 2000);
     });
 })();

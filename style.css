@@ -16,52 +16,192 @@ body {
 /* ==============================
    SOBRE ANIMADO DE ENTRADA
 ============================== */
+/* === Fondo con textura sutil tipo papel === */
 .envelope-screen {
-  position: fixed;
-  inset: 0;
-  background: #fdf6f0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  transition: opacity 1s ease;
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(45deg,
+            #fdf6f0,
+            #fdf6f0 10px,
+            #f9f1ea 10px,
+            #f9f1ea 20px);
+    background-size: 100px 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    transition: opacity 1s ease;
+    overflow: hidden;
 }
 
+/* === Cinta dorada decorativa === */
+.envelope::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -20%;
+    width: 140%;
+    height: 10px;
+    background: linear-gradient(90deg, #b6934a, #e3c872, #b6934a);
+    box-shadow: 0 0 6px rgba(182, 147, 74, 0.5);
+    transform: rotate(-10deg);
+    z-index: 5;
+    opacity: 0.9;
+}
+
+/* Opcional: pequeña cinta vertical cruzada */
+.envelope::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -20%;
+    width: 10px;
+    height: 140%;
+    background: linear-gradient(180deg, #b6934a, #e3c872, #b6934a);
+    box-shadow: 0 0 6px rgba(182, 147, 74, 0.4);
+    transform: rotate(-8deg);
+    z-index: 5;
+    opacity: 0.9;
+}
+
+/* === Animación de brillo sutil sobre la cinta === */
+@keyframes ribbon-shine {
+    0% {
+        filter: brightness(1);
+    }
+
+    50% {
+        filter: brightness(1.25);
+    }
+
+    100% {
+        filter: brightness(1);
+    }
+}
+
+/* === Cinta más elegante (menos saturada) === */
+.envelope::before,
+.envelope::after {
+  background: linear-gradient(90deg, #d2b46b, #f1df9b, #d2b46b);
+  box-shadow: 0 0 6px rgba(210, 180, 107, 0.4);
+  opacity: 0.8;
+}
+
+/* === Cuando se abre, la cinta desaparece elegantemente === */
+.envelope.open::before,
+.envelope.open::after {
+  opacity: 0;
+  transform: scaleX(0.6) rotate(-10deg);
+  transition: all 1s ease;
+}
+
+/* === Lazo dorado decorativo === */
+.ribbon-bow {
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 40px;
+    z-index: 6;
+}
+
+.ribbon-bow .knot {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    background: radial-gradient(circle at 30% 30%, #e8d084, #b89348);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 4px rgba(182, 147, 74, 0.6);
+    z-index: 2;
+}
+
+.ribbon-bow .loop {
+    position: absolute;
+    top: 50%;
+    width: 25px;
+    height: 20px;
+    background: linear-gradient(90deg, #e3c872, #b6934a);
+    border-radius: 50% 50% 0 0;
+    transform-origin: center;
+    transition: transform 1s ease, opacity 1s ease;
+    z-index: 1;
+}
+
+.ribbon-bow .loop.left {
+    left: calc(50% - 22px);
+    transform: rotate(20deg);
+}
+
+.ribbon-bow .loop.right {
+    right: calc(50% - 22px);
+    transform: rotate(-20deg);
+}
+
+/* === Al abrir el sobre, el lazo se desata === */
+.envelope.open .ribbon-bow .loop.left {
+    transform: translateX(-20px) rotate(60deg);
+    opacity: 0;
+}
+
+.envelope.open .ribbon-bow .loop.right {
+    transform: translateX(20px) rotate(-60deg);
+    opacity: 0;
+}
+
+.envelope.open .ribbon-bow .knot {
+    transform: scale(0);
+    opacity: 0;
+    transition: all 1s ease;
+}
+
+/* === Opcional: textura dentro del sobre === */
 .envelope {
   position: relative;
-  width: 260px;
-  height: 180px;
-  background: #fff0e6;
-  border: 2px solid #e0b89a;
-  border-radius: 4px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  width: 280px;
+  height: 190px;
+  background: #fef8f3;
+  border: 2px solid #d9bfa4;
+  border-radius: 6px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2),
+              inset 0 2px 4px rgba(255, 255, 255, 0.6);
   cursor: pointer;
   overflow: hidden;
+  background-image: radial-gradient(#fffaf5 1px, transparent 1px);
+  background-size: 12px 12px;
 }
 
+/* === Solapa superior === */
 .envelope-flap {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 50%;
-  background: #f0cbb3;
+  height: 55%;
+  background: #e0b89a;
   clip-path: polygon(0 0, 50% 100%, 100% 0);
   transform-origin: top;
   transition: transform 1s ease;
+  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.2);
   z-index: 3;
 }
 
+/* === Cuerpo inferior === */
 .envelope-body {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 70%;
-  background: #f0cbb3;
+  background: #f6e9da;
   border-top: 2px solid #e0b89a;
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* === Texto del frente === */
 .envelope-front {
   position: absolute;
   inset: 0;
@@ -69,62 +209,67 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: .25rem;
+  gap: 0.3rem;
   text-align: center;
-  z-index: 4;
+  z-index: 7; /* ahora está encima del lazo y la cinta */
   pointer-events: none;
-  transition: opacity .6s ease, transform .6s ease;
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .front-names {
   font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
-  color: #623b2c;
+  font-size: 1.3rem;
+  color: #2c1a0b;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6),
+               0 0 2px rgba(0, 0, 0, 0.25);
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .front-hint {
-  font-size: .9rem;
-  color: #8a5b47;
-  opacity: .9;
+  font-size: 0.95rem;
+  color: #5a3d2e;
+  opacity: 0.9;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
 }
 
 .envelope.open .envelope-front {
-  opacity: 0;
-  transform: translateY(-6px);
+    opacity: 0;
+    transform: translateY(-6px);
 }
 
 .envelope-letter {
-  position: absolute;
-  bottom: -100%;
-  left: 0;
-  width: 100%;
-  height: 90%;
-  background: #fff;
-  text-align: center;
-  padding-top: 40px;
-  font-family: 'Playfair Display', serif;
-  color: #623b2c;
-  transition: bottom 1s ease;
-  z-index: 2;
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    height: 90%;
+    background: #fff;
+    text-align: center;
+    padding-top: 40px;
+    font-family: 'Playfair Display', serif;
+    color: #623b2c;
+    transition: bottom 1s ease;
+    z-index: 2;
 }
 
 .envelope.open .envelope-flap {
-  transform: rotateX(180deg);
+    transform: rotateX(180deg);
 }
 
 .envelope.open .envelope-letter {
-  bottom: 10%;
+    bottom: 10%;
 }
 
 .envelope.fade-out {
-  opacity: 0;
-  transform: scale(0.9);
-  transition: all 1s ease;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 1s ease;
 }
 
 .envelope-screen.hide {
-  opacity: 0;
-  pointer-events: none;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .header {
