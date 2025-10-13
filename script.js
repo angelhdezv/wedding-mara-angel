@@ -1,6 +1,24 @@
 const DBInvitados = {
-  "Pruebita": 1,
-  "Pruebitita": 2
+    "gnuqqp": {
+        "name": "Luis",
+        "tickets": 1
+    },
+    "qn19j6": {
+        "name": "Uriel",
+        "tickets": 2
+    },
+    "hmvbqo": {
+        "name": "Fernando",
+        "tickets": 3
+    },
+    "xtrnpv": {
+        "name": "Jonathan",
+        "tickets": 3
+    },
+    "3i9fri": {
+        "name": "Giovanni",
+        "tickets": 3
+    },
 };
 
 // Countdown
@@ -108,39 +126,76 @@ const DBInvitados = {
 
 // === INVITADOS PERSONALIZADOS ===
 (async function () {
-  const params = new URLSearchParams(window.location.search);
-  const nombre = params.get('nombre');
-  if (!nombre) return;
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
 
-  const guestInfoDiv = document.createElement('section');
-  guestInfoDiv.classList.add('guest-info');
-  document.querySelector('main').prepend(guestInfoDiv);
+    const currentPage = window.location.pathname.split('/').pop();
 
-  try {
-    const data = DBInvitados;
-
-    console.log("data: "+data)
-
-    console.log("nombre: "+nombre)
-    const boletos = data[nombre];
-    console.log("boletos: "+boletos)
-    if (boletos) {
-      guestInfoDiv.innerHTML = `
-        <p>👋 Hola <strong>${decodeURIComponent(nombre)}</strong>,</p>
-        <p>Este enlace incluye <strong>${boletos}</strong> boleto${boletos > 1 ? 's' : ''} 🎟️</p>
-      `;
-    } else {
-      guestInfoDiv.innerHTML = `
-        <p>👋 Hola <strong>${decodeURIComponent(nombre)}</strong>,</p>
-        <p>No encontramos boletos asignados a este enlace 😔.<br>
-        Por favor contacta a Maraitzi o Ángel 💌</p>
-      `;
+    // Solo redirige si NO hay código y estamos en index
+    if (!code && (currentPage === '' || currentPage === 'index.html')) {
+        window.location.href = 'code.html';
+        return;
     }
-  } catch (error) {
-    console.error('Error cargando DBInvitados.json:', error);
-    guestInfoDiv.innerHTML = `
-      <p>⚠️ No se pudo verificar tu invitación en este momento.<br>
-      Intenta más tarde o contacta a los novios 💌</p>
-    `;
-  }
+
+    // Si estamos en code.html, no hacer nada más
+    if (currentPage === 'code.html') return;
+
+    const guestInfoDiv = document.createElement('section');
+    guestInfoDiv.classList.add('guest-info');
+    document.querySelector('main').prepend(guestInfoDiv);
+
+    try {
+        const data = DBInvitados;
+        const personalInfo = data[code];
+
+        if (personalInfo) {
+            const name = personalInfo["name"];
+            const tickets = personalInfo["tickets"];
+            guestInfoDiv.innerHTML = `
+                <p>👋 Hola <strong>${name}</strong>,</p>
+                <p>Este enlace incluye <strong>${tickets}</strong> boleto${tickets > 1 ? 's' : ''} 🎟️</p>
+            `;
+        } else {
+            // Solo redirige si estamos en index (evita loop)
+            if (currentPage === '' || currentPage === 'index.html') {
+                window.location.href = 'code.html';
+            }
+            return;
+        }
+    } catch (error) {
+        console.error('Error cargando DBInvitados:', error);
+        guestInfoDiv.innerHTML = `
+            <p>⚠️ No se pudo verificar tu invitación en este momento.<br>
+            Intenta más tarde o contacta a los novios 💌</p>
+        `;
+    }
+})();
+
+// === VALIDACIÓN DE CÓDIGO (solo se ejecuta en code.html) ===
+(function () {
+  const input = document.getElementById('code-input');
+  const button = document.getElementById('code-button');
+  const errorMsg = document.getElementById('error-message');
+  if (!input || !button) return; // Evita correr esto en index.html
+
+  button.addEventListener('click', async () => {
+    const code = input.value.trim();
+    if (!code) return;
+
+    try {
+      const data = DBInvitados;
+      const guest = data[code];
+      if (guest) {
+        // Código válido: redirigir a index.html con el parámetro
+        window.location.href = `index.html?code=${encodeURIComponent(code)}`;
+      } else {
+        // Código inválido: mostrar mensaje de error
+        errorMsg.classList.remove('hidden');
+      }
+    } catch (err) {
+      console.error('Error leyendo JSON:', err);
+      errorMsg.textContent = '⚠️ Error verificando tu código, intenta más tarde 💌';
+      errorMsg.classList.remove('hidden');
+    }
+  });
 })();
