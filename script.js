@@ -151,11 +151,23 @@ const DBInvitados = {
         if (personalInfo) {
             const name = personalInfo["name"];
             const tickets = personalInfo["tickets"];
+
+            // ✅ Arma el mensaje personalizado
+            const message = encodeURIComponent(`Hola Maraitzi & Ángel, soy ${name}, quiero confirmar la asistencia de ${tickets} persona${tickets > 1 ? 's' : ''} a su boda, saludos.`);
+
+            // ✅ Inserta la bienvenida personalizada
             guestInfoDiv.innerHTML = `
-                <p>👋 Hola <strong>${name}</strong>,</p>
-                <p>Este enlace incluye <strong>${tickets}</strong> boleto${tickets > 1 ? 's' : ''} 🎟️</p>
-            `;
-        } else {
+        <p>👋 Hola <strong>${name}</strong>,</p>
+        <p>Este enlace incluye <strong>${tickets}</strong> boleto${tickets > 1 ? 's' : ''} 🎟️</p>
+    `;
+
+            // ✅ Actualiza el botón de Confirmar asistencia
+            const confirmButton = document.querySelector('.btn.confirm');
+            if (confirmButton) {
+                confirmButton.href = `https://wa.me/?text=${message}`;
+            }
+        }
+        else {
             // Solo redirige si estamos en index (evita loop)
             if (currentPage === '' || currentPage === 'index.html') {
                 window.location.href = 'code.html';
@@ -173,29 +185,29 @@ const DBInvitados = {
 
 // === VALIDACIÓN DE CÓDIGO (solo se ejecuta en code.html) ===
 (function () {
-  const input = document.getElementById('code-input');
-  const button = document.getElementById('code-button');
-  const errorMsg = document.getElementById('error-message');
-  if (!input || !button) return; // Evita correr esto en index.html
+    const input = document.getElementById('code-input');
+    const button = document.getElementById('code-button');
+    const errorMsg = document.getElementById('error-message');
+    if (!input || !button) return; // Evita correr esto en index.html
 
-  button.addEventListener('click', async () => {
-    const code = input.value.trim();
-    if (!code) return;
+    button.addEventListener('click', async () => {
+        const code = input?.value?.toLowerCase()?.trim();
+        if (!code) return;
 
-    try {
-      const data = DBInvitados;
-      const guest = data[code];
-      if (guest) {
-        // Código válido: redirigir a index.html con el parámetro
-        window.location.href = `index.html?code=${encodeURIComponent(code)}`;
-      } else {
-        // Código inválido: mostrar mensaje de error
-        errorMsg.classList.remove('hidden');
-      }
-    } catch (err) {
-      console.error('Error leyendo JSON:', err);
-      errorMsg.textContent = '⚠️ Error verificando tu código, intenta más tarde 💌';
-      errorMsg.classList.remove('hidden');
-    }
-  });
+        try {
+            const data = DBInvitados;
+            const guest = data[code];
+            if (guest) {
+                // Código válido: redirigir a index.html con el parámetro
+                window.location.href = `index.html?code=${encodeURIComponent(code)}`;
+            } else {
+                // Código inválido: mostrar mensaje de error
+                errorMsg.classList.remove('hidden');
+            }
+        } catch (err) {
+            console.error('Error leyendo JSON:', err);
+            errorMsg.textContent = '⚠️ Error verificando tu código, intenta más tarde 💌';
+            errorMsg.classList.remove('hidden');
+        }
+    });
 })();
