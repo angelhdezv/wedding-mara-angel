@@ -164,9 +164,8 @@
         });
     } catch (error) {
         console.error("Error:", error);
-        guestInfoDiv.innerHTML = `
-      <p>⚠️ No se pudo verificar tu invitación.<br>
-      Intenta más tarde o contacta a los novios 💌</p>`;
+        window.location.href = `code.html`;
+        return;
     } finally {
         if (loaderScreen) loaderScreen.classList.add("hide");
     }
