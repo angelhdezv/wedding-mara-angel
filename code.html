@@ -15,8 +15,14 @@
     <p class="subtitle">Ingresa tu código para acceder</p>
 
     <div class="form-area">
-      <input type="text" id="code-input" placeholder="Ejemplo: A1B2C3" maxlength="6" autofocus  style="text-transform: uppercase;"/>
+      <input type="text" id="code-input" placeholder="Ejemplo: A1B2C3" maxlength="6" autofocus
+        style="text-transform: uppercase;" />
       <button id="code-button">Ingresar</button>
+    </div>
+
+    <div id="loading-message" class="hidden">
+      <div class="mini-loader"></div>
+      <p>Verificando código...</p>
     </div>
 
     <p id="error-message" class="error-message hidden">

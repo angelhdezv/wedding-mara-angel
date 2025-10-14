@@ -101,19 +101,18 @@
     });
 })();
 
-// === INVITADOS PERSONALIZADOS (versión con endpoint de Google) ===
+// === INVITADOS PERSONALIZADOS (con pantalla de carga global) ===
 (async function () {
+    const loaderScreen = document.getElementById('loading-screen');
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
     const currentPage = window.location.pathname.split('/').pop();
 
-    // Solo redirige si NO hay código y estamos en index
     if (!code && (currentPage === '' || currentPage === 'index.html')) {
         window.location.href = 'code.html';
         return;
     }
 
-    // Si estamos en code.html, no hacer nada más
     if (currentPage === 'code.html') return;
 
     const guestInfoDiv = document.createElement('section');
@@ -121,34 +120,29 @@
     document.querySelector('main').prepend(guestInfoDiv);
 
     try {
-        // 🛰️ Llamada a tu endpoint de Google
+        // 👇 Mostrar loader
+        if (loaderScreen) loaderScreen.classList.remove('hide');
+
         const response = await fetch(
             `https://script.google.com/macros/s/AKfycbyUQOg6Hyt_2jAkoscyLbHtK6f4VV2SC-G08NIAF6dYlEdC4EKnQFIkZOuuRp9x2WPsog/exec?code=${encodeURIComponent(code)}`
         );
-
         const result = await response.json();
 
-        // ⚙️ Verifica respuesta
-        if (result.code !== "ok" || !result.data) {
-            console.warn("Código no válido o no encontrado:", result);
+        if (result.code !== 'ok' || !result.data) {
             window.location.href = 'code.html';
             return;
         }
 
         const { name, tickets } = result.data;
-
-        // ✅ Arma el mensaje personalizado para WhatsApp
         const message = encodeURIComponent(
             `Hola Maraitzi & Ángel, soy ${name}, quiero confirmar la asistencia de ${tickets} persona${tickets > 1 ? 's' : ''} a su boda. 💍`
         );
 
-        // ✅ Muestra la bienvenida personalizada
         guestInfoDiv.innerHTML = `
-            <p>👋 Hola <strong>${name}</strong>,</p>
-            <p>Este enlace incluye <strong>${tickets}</strong> boleto${tickets > 1 ? 's' : ''} 🎟️</p>
-        `;
+      <p>👋 Hola <strong>${name}</strong>,</p>
+      <p>Este enlace incluye <strong>${tickets}</strong> boleto${tickets > 1 ? 's' : ''} 🎟️</p>
+    `;
 
-        // ✅ Actualiza el botón de WhatsApp
         const confirmButton = document.querySelector('.btn.confirm');
         if (confirmButton) {
             confirmButton.href = `https://wa.me/?text=${message}`;
@@ -156,9 +150,12 @@
     } catch (error) {
         console.error('Error cargando invitado:', error);
         guestInfoDiv.innerHTML = `
-            <p>⚠️ No se pudo verificar tu invitación en este momento.<br>
-            Intenta más tarde o contacta a los novios 💌</p>
-        `;
+      <p>⚠️ No se pudo verificar tu invitación.<br>
+      Intenta más tarde o contacta a los novios 💌</p>
+    `;
+    } finally {
+        // 👇 Ocultar loader
+        if (loaderScreen) loaderScreen.classList.add('hide');
     }
 })();
 
@@ -172,6 +169,9 @@
     button.addEventListener('click', async () => {
         const code = input?.value?.toLowerCase()?.trim();
         if (!code) return;
+        errorMsg.classList.add("hidden");
+        const loader = document.getElementById('loading-message');
+        if (loader) loader.classList.remove('hidden'); // 👈 Mostrar animación
 
         try {
             const response = await fetch(
@@ -180,10 +180,8 @@
             const result = await response.json();
 
             if (result.code === "ok" && result.data) {
-                // ✅ Código válido: redirigir a index.html con el parámetro
                 window.location.href = `index.html?code=${encodeURIComponent(code)}`;
             } else {
-                // ❌ Código inválido: mostrar mensaje de error
                 errorMsg.textContent = "⚠️ Código no encontrado, revisa tu invitación 💌";
                 errorMsg.classList.remove('hidden');
             }
@@ -191,6 +189,8 @@
             console.error("Error verificando código:", err);
             errorMsg.textContent = "⚠️ Error verificando tu código, intenta más tarde 💌";
             errorMsg.classList.remove('hidden');
+        } finally {
+            if (loader) loader.classList.add('hidden'); // 👈 Ocultar animación
         }
     });
 })();
