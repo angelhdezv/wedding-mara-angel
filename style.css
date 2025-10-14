@@ -562,3 +562,106 @@ main {
         margin-bottom: 0;
     }
 }
+
+/* === MODAL DE CONFIRMACIÓN === */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #fffaf5;
+  border: 2px solid #f1df9b;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal h2 {
+  margin-bottom: 0.75rem;
+  color: #3b2c23;
+}
+
+.modal p {
+  color: #5a3d2e;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: #5a3d2e;
+  cursor: pointer;
+}
+
+.modal input[type="number"] {
+  width: 80px;
+  padding: 0.4rem;
+  font-size: 1.2rem;
+  text-align: center;
+  border: 1px solid #d4b46a;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.btn-pill.secondary {
+  background-color: #c4b093;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* === FIX: Ocultar pasos del modal correctamente === */
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+.btn-pill.loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.btn-pill.loading::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  animation: spin 0.9s linear infinite;
+}

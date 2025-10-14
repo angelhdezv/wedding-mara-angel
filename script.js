@@ -101,63 +101,189 @@
     });
 })();
 
-// === INVITADOS PERSONALIZADOS (con pantalla de carga global) ===
+// === INVITADOS PERSONALIZADOS + CONFIRMACIÓN ===
 (async function () {
-    const loaderScreen = document.getElementById('loading-screen');
+    const loaderScreen = document.getElementById("loading-screen");
     const params = new URLSearchParams(window.location.search);
-    const code = params.get('code');
-    const currentPage = window.location.pathname.split('/').pop();
+    const code = params.get("code");
+    const currentPage = window.location.pathname.split("/").pop();
 
-    if (!code && (currentPage === '' || currentPage === 'index.html')) {
-        window.location.href = 'code.html';
+    if (!code && (currentPage === "" || currentPage === "index.html")) {
+        window.location.href = "code.html";
         return;
     }
 
-    if (currentPage === 'code.html') return;
+    if (currentPage === "code.html") return;
 
-    const guestInfoDiv = document.createElement('section');
-    guestInfoDiv.classList.add('guest-info');
-    document.querySelector('main').prepend(guestInfoDiv);
+    const guestInfoDiv = document.createElement("section");
+    guestInfoDiv.classList.add("guest-info");
+    document.querySelector("main").prepend(guestInfoDiv);
 
     try {
-        // 👇 Mostrar loader
-        if (loaderScreen) loaderScreen.classList.remove('hide');
+        if (loaderScreen) loaderScreen.classList.remove("hide");
 
-        const response = await fetch(
-            `https://script.google.com/macros/s/AKfycbyUQOg6Hyt_2jAkoscyLbHtK6f4VV2SC-G08NIAF6dYlEdC4EKnQFIkZOuuRp9x2WPsog/exec?code=${encodeURIComponent(code)}`
+        const res = await fetch(
+            `https://script.google.com/macros/s/AKfycbyrpDnPgzBa-anTlLumhI8TbLyPg3EpiTfQcb1ql0xMV1f7z7Jwd4S8naTyF72PDtlb8A/exec?code=${encodeURIComponent(code)}`
         );
-        const result = await response.json();
+        const result = await res.json();
+        if (result.code !== "ok" || !result.data) throw new Error("not found");
 
-        if (result.code !== 'ok' || !result.data) {
-            window.location.href = 'code.html';
-            return;
-        }
-
-        const { name, tickets } = result.data;
-        const message = encodeURIComponent(
-            `Hola Maraitzi & Ángel, soy ${name}, quiero confirmar la asistencia de ${tickets} persona${tickets > 1 ? 's' : ''} a su boda. 💍`
-        );
+        const { name, tickets, confirmation } = result.data;
 
         guestInfoDiv.innerHTML = `
       <p>👋 Hola <strong>${name}</strong>,</p>
-      <p>Este enlace incluye <strong>${tickets}</strong> boleto${tickets > 1 ? 's' : ''} 🎟️</p>
+      <p>Este enlace incluye <strong>${tickets}</strong> boleto${tickets > 1 ? "s" : ""} 🎟️</p>
+      <div id="confirmed-message" class="hidden"></div>
+      <div class="actions">
+        <a id="confirm-button" class="btn confirm" href="#">Confirmar asistencia</a>
+      </div>
     `;
 
-        const confirmButton = document.querySelector('.btn.confirm');
-        if (confirmButton) {
-            confirmButton.href = `https://wa.me/?text=${message}`;
+        const confirmBtn = document.getElementById("confirm-button");
+        const confirmedMessage = document.getElementById("confirmed-message");
+
+        // ✅ Si ya confirmó, ocultamos botón y mostramos mensaje
+        if (confirmation?.isConfirmed) {
+            confirmBtn.classList.add("hidden");
+            confirmedMessage.classList.remove("hidden");
+            const date = confirmation.date_of_confirmation
+                ? new Date(confirmation.date_of_confirmation).toLocaleString("es-MX")
+                : "fecha desconocida";
+            confirmedMessage.innerHTML = `
+        🎉 ¡Gracias, <strong>${name}</strong>!<br>
+        Confirmaste la asistencia de <strong>${confirmation.guests}</strong> persona${confirmation.guests > 1 ? "s" : ""}<br>
+        el día <em>${date}</em> 💍✨
+      `;
+            return;
         }
+
+        // ✅ Si no ha confirmado, mostrar modal
+        confirmBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            openModal(tickets, name, code);
+        });
     } catch (error) {
-        console.error('Error cargando invitado:', error);
+        console.error("Error:", error);
         guestInfoDiv.innerHTML = `
       <p>⚠️ No se pudo verificar tu invitación.<br>
-      Intenta más tarde o contacta a los novios 💌</p>
-    `;
+      Intenta más tarde o contacta a los novios 💌</p>`;
     } finally {
-        // 👇 Ocultar loader
-        if (loaderScreen) loaderScreen.classList.add('hide');
+        if (loaderScreen) loaderScreen.classList.add("hide");
     }
 })();
+
+// === MODAL LOGIC ===
+function openModal(maxTickets, name, code) {
+    const modal = document.getElementById("confirmation-modal");
+    const closeBtn = document.getElementById("modal-close");
+    const stepInitial = document.getElementById("modal-step-initial");
+    const stepCustom = document.getElementById("modal-step-custom");
+    const stepFinal = document.getElementById("modal-step-final");
+    const stepSuccess = document.getElementById("modal-step-success");
+    const guestCount = document.getElementById("guest-count");
+
+    const confirmAll = document.getElementById("confirm-all");
+    const confirmCustom = document.getElementById("confirm-custom");
+    const confirmCustomSend = document.getElementById("confirm-custom-send");
+    const cancelCustom = document.getElementById("cancel-custom");
+    const confirmFinal = document.getElementById("confirm-final");
+    const cancelFinal = document.getElementById("cancel-final");
+    const closeSuccess = document.getElementById("close-success");
+
+    modal.classList.remove("hidden");
+    guestCount.max = maxTickets;
+    guestCount.value = 1;
+
+    const showStep = (step) => {
+        [stepInitial, stepCustom, stepFinal, stepSuccess].forEach((el) =>
+            el.classList.add("hidden")
+        );
+        step.classList.remove("hidden");
+    };
+
+    closeBtn.onclick = () => modal.classList.add("hidden");
+
+    confirmAll.onclick = () => {
+        stepFinal.dataset.guests = maxTickets;
+        showStep(stepFinal);
+    };
+    confirmCustom.onclick = () => showStep(stepCustom);
+    cancelCustom.onclick = () => showStep(stepInitial);
+    cancelFinal.onclick = () => showStep(stepInitial);
+
+    confirmCustomSend.onclick = () => {
+        const count = parseInt(guestCount.value, 10);
+        if (count < 1 || count > maxTickets) {
+            alert(`Por favor, ingresa un número válido de asistentes entre 1 y ${maxTickets}.`);
+            return;
+        }
+        stepFinal.dataset.guests = count;
+        showStep(stepFinal);
+    };
+
+    confirmFinal.onclick = async () => {
+        const guests = parseInt(stepFinal.dataset.guests || maxTickets, 10);
+        await sendConfirmation(code, guests, name, modal, showStep, stepSuccess);
+    };
+
+    closeSuccess.onclick = () => modal.classList.add("hidden");
+}
+
+// === ENVÍO DE CONFIRMACIÓN AL BACKEND ===
+async function sendConfirmation(code, guests, name, modal, showStep, stepSuccess) {
+  const confirmFinal = document.getElementById("confirm-final");
+  const originalText = confirmFinal.textContent;
+  const confirmedMessage = document.getElementById("confirmed-message");
+  const confirmBtn = document.getElementById("confirm-button");
+
+  try {
+    confirmFinal.disabled = true;
+    confirmFinal.textContent = "Confirmando...";
+    confirmFinal.classList.add("loading");
+
+    // ✅ Abrir WhatsApp inmediatamente (antes del fetch)
+    const msg = encodeURIComponent(
+      `Hola Maraitzi & Ángel, soy ${name}, confirmo la asistencia de ${guests} persona${guests > 1 ? "s" : ""} 💍`
+    );
+    window.open(`https://wa.me/?text=${msg}`, "_blank");
+
+    // Luego enviar la confirmación al backend
+    const res = await fetch(
+      "https://script.google.com/macros/s/AKfycbyrpDnPgzBa-anTlLumhI8TbLyPg3EpiTfQcb1ql0xMV1f7z7Jwd4S8naTyF72PDtlb8A/exec",
+      {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ code, guests }),
+      }
+    );
+
+    const result = await res.json();
+
+    if (result.code === "ok") {
+      showStep(stepSuccess);
+
+      const date = new Date().toLocaleString("es-MX");
+      if (confirmedMessage && confirmBtn) {
+        confirmBtn.classList.add("hidden");
+        confirmedMessage.classList.remove("hidden");
+        confirmedMessage.innerHTML = `
+          🎉 ¡Gracias, <strong>${name}</strong>!<br>
+          Confirmaste la asistencia de <strong>${guests}</strong> persona${guests > 1 ? "s" : ""}<br>
+          el día <em>${date}</em> 💍✨
+        `;
+      }
+    } else {
+      alert("Ocurrió un error al guardar la confirmación.");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error al enviar confirmación. Intenta más tarde 💌");
+  } finally {
+    confirmFinal.disabled = false;
+    confirmFinal.textContent = originalText;
+    confirmFinal.classList.remove("loading");
+  }
+}
 
 // === VALIDACIÓN DE CÓDIGO (solo se ejecuta en code.html, con endpoint remoto) ===
 (function () {
@@ -175,7 +301,7 @@
 
         try {
             const response = await fetch(
-                `https://script.google.com/macros/s/AKfycbyUQOg6Hyt_2jAkoscyLbHtK6f4VV2SC-G08NIAF6dYlEdC4EKnQFIkZOuuRp9x2WPsog/exec?code=${encodeURIComponent(code)}`
+                `https://script.google.com/macros/s/AKfycbyrpDnPgzBa-anTlLumhI8TbLyPg3EpiTfQcb1ql0xMV1f7z7Jwd4S8naTyF72PDtlb8A/exec?code=${encodeURIComponent(code)}`
             );
             const result = await response.json();
 

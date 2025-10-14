@@ -14,7 +14,7 @@
         <div class="loader"></div>
         <p>Cargando tu invitación...</p>
     </div>
-    
+
     <div id="envelope-screen" class="envelope-screen">
         <div class="envelope">
             <div class="envelope-flap"></div>
@@ -108,15 +108,58 @@
         </section>
 
         <section class="actions">
-            <a class="btn confirm"
-                href="https://wa.me/?text=Hola,%20quiero%20confirmar%20mi%20asistencia%20a%20la%20boda%20de%20Maraitzi%20%26%20Ángel."
-                target="_blank" rel="noopener">Confirmar asistencia</a>
+            <a id="confirm-button" class="btn confirm" href="#">Confirmar asistencia</a>
         </section>
     </main>
 
     <footer class="footer">
         <p>Desarrollado con ❤️ por ChatGPT, Codex y GitHub Pages</p>
     </footer>
+
+    <!-- === MODAL DE CONFIRMACIÓN === -->
+    <div id="confirmation-modal" class="modal hidden">
+        <div class="modal-content">
+            <button id="modal-close" class="modal-close">×</button>
+
+            <!-- Paso 1: visible -->
+            <div id="modal-step-initial">
+                <h2>Confirmar asistencia</h2>
+                <p>¿Deseas confirmar la asistencia de todos los invitados incluidos?</p>
+                <div class="modal-actions">
+                    <button id="confirm-all" class="btn-pill">Sí, todos</button>
+                    <button id="confirm-custom" class="btn-pill secondary">No, elegir número</button>
+                </div>
+            </div>
+
+            <!-- Paso 2: oculto -->
+            <div id="modal-step-custom" class="hidden">
+                <h2>¿Cuántos asistirán?</h2>
+                <input id="guest-count" type="number" min="1" max="1" value="1" />
+                <div class="modal-actions">
+                    <button id="confirm-custom-send" class="btn-pill">Confirmar</button>
+                    <button id="cancel-custom" class="btn-pill secondary">Cancelar</button>
+                </div>
+            </div>
+
+            <!-- Paso 3: oculto -->
+            <div id="modal-step-final" class="hidden">
+                <h2>Confirmación final</h2>
+                <p>Una vez confirmada tu asistencia no se podrá modificar el número de invitados.<br>
+                    ¿Deseas continuar?</p>
+                <div class="modal-actions">
+                    <button id="confirm-final" class="btn-pill">Confirmar</button>
+                    <button id="cancel-final" class="btn-pill secondary">Cancelar</button>
+                </div>
+            </div>
+
+            <!-- Paso 4: oculto -->
+            <div id="modal-step-success" class="hidden">
+                <h2>🎉 ¡Confirmado!</h2>
+                <p>Tu confirmación ha sido registrada.<br>Nos vemos en la boda 💍✨</p>
+                <button id="close-success" class="btn-pill">Cerrar</button>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
