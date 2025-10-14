@@ -123,7 +123,7 @@
         if (loaderScreen) loaderScreen.classList.remove("hide");
 
         const res = await fetch(
-            `https://script.google.com/macros/s/AKfycbyrpDnPgzBa-anTlLumhI8TbLyPg3EpiTfQcb1ql0xMV1f7z7Jwd4S8naTyF72PDtlb8A/exec?code=${encodeURIComponent(code)}`
+            `https://script.google.com/macros/s/AKfycbyPwS5RJsxdnrsbJpcaIGSlYcsHfC7PtqudxcX87EGab1cDGmDgW_vQT5uxaJlsbGsDmA/exec?code=${encodeURIComponent(code)}`
         );
         const result = await res.json();
         if (result.code !== "ok" || !result.data) throw new Error("not found");
@@ -249,7 +249,7 @@ async function sendConfirmation(code, guests, name, modal, showStep, stepSuccess
 
     // Luego enviar la confirmación al backend
     const res = await fetch(
-      "https://script.google.com/macros/s/AKfycbyrpDnPgzBa-anTlLumhI8TbLyPg3EpiTfQcb1ql0xMV1f7z7Jwd4S8naTyF72PDtlb8A/exec",
+      "https://script.google.com/macros/s/AKfycbyPwS5RJsxdnrsbJpcaIGSlYcsHfC7PtqudxcX87EGab1cDGmDgW_vQT5uxaJlsbGsDmA/exec",
       {
         method: "POST",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
@@ -301,7 +301,7 @@ async function sendConfirmation(code, guests, name, modal, showStep, stepSuccess
 
         try {
             const response = await fetch(
-                `https://script.google.com/macros/s/AKfycbyrpDnPgzBa-anTlLumhI8TbLyPg3EpiTfQcb1ql0xMV1f7z7Jwd4S8naTyF72PDtlb8A/exec?code=${encodeURIComponent(code)}`
+                `https://script.google.com/macros/s/AKfycbyPwS5RJsxdnrsbJpcaIGSlYcsHfC7PtqudxcX87EGab1cDGmDgW_vQT5uxaJlsbGsDmA/exec?code=${encodeURIComponent(code)}`
             );
             const result = await response.json();
 
