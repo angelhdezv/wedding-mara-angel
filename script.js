@@ -1,26 +1,3 @@
-const DBInvitados = {
-    "gnuqqp": {
-        "name": "Luis",
-        "tickets": 1
-    },
-    "qn19j6": {
-        "name": "Uriel",
-        "tickets": 2
-    },
-    "hmvbqo": {
-        "name": "Fernando",
-        "tickets": 3
-    },
-    "xtrnpv": {
-        "name": "Jonathan",
-        "tickets": 3
-    },
-    "3i9fri": {
-        "name": "Giovanni",
-        "tickets": 3
-    },
-};
-
 // Countdown
 (function () {
     const countdown = document.getElementById('countdown');
@@ -124,11 +101,10 @@ const DBInvitados = {
     });
 })();
 
-// === INVITADOS PERSONALIZADOS ===
+// === INVITADOS PERSONALIZADOS (versión con endpoint de Google) ===
 (async function () {
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
-
     const currentPage = window.location.pathname.split('/').pop();
 
     // Solo redirige si NO hay código y estamos en index
@@ -145,37 +121,40 @@ const DBInvitados = {
     document.querySelector('main').prepend(guestInfoDiv);
 
     try {
-        const data = DBInvitados;
-        const personalInfo = data[code];
+        // 🛰️ Llamada a tu endpoint de Google
+        const response = await fetch(
+            `https://script.google.com/macros/s/AKfycbyUQOg6Hyt_2jAkoscyLbHtK6f4VV2SC-G08NIAF6dYlEdC4EKnQFIkZOuuRp9x2WPsog/exec?code=${encodeURIComponent(code)}`
+        );
 
-        if (personalInfo) {
-            const name = personalInfo["name"];
-            const tickets = personalInfo["tickets"];
+        const result = await response.json();
 
-            // ✅ Arma el mensaje personalizado
-            const message = encodeURIComponent(`Hola Maraitzi & Ángel, soy ${name}, quiero confirmar la asistencia de ${tickets} persona${tickets > 1 ? 's' : ''} a su boda, saludos.`);
-
-            // ✅ Inserta la bienvenida personalizada
-            guestInfoDiv.innerHTML = `
-        <p>👋 Hola <strong>${name}</strong>,</p>
-        <p>Este enlace incluye <strong>${tickets}</strong> boleto${tickets > 1 ? 's' : ''} 🎟️</p>
-    `;
-
-            // ✅ Actualiza el botón de Confirmar asistencia
-            const confirmButton = document.querySelector('.btn.confirm');
-            if (confirmButton) {
-                confirmButton.href = `https://wa.me/?text=${message}`;
-            }
-        }
-        else {
-            // Solo redirige si estamos en index (evita loop)
-            if (currentPage === '' || currentPage === 'index.html') {
-                window.location.href = 'code.html';
-            }
+        // ⚙️ Verifica respuesta
+        if (result.code !== "ok" || !result.data) {
+            console.warn("Código no válido o no encontrado:", result);
+            window.location.href = 'code.html';
             return;
         }
+
+        const { name, tickets } = result.data;
+
+        // ✅ Arma el mensaje personalizado para WhatsApp
+        const message = encodeURIComponent(
+            `Hola Maraitzi & Ángel, soy ${name}, quiero confirmar la asistencia de ${tickets} persona${tickets > 1 ? 's' : ''} a su boda. 💍`
+        );
+
+        // ✅ Muestra la bienvenida personalizada
+        guestInfoDiv.innerHTML = `
+            <p>👋 Hola <strong>${name}</strong>,</p>
+            <p>Este enlace incluye <strong>${tickets}</strong> boleto${tickets > 1 ? 's' : ''} 🎟️</p>
+        `;
+
+        // ✅ Actualiza el botón de WhatsApp
+        const confirmButton = document.querySelector('.btn.confirm');
+        if (confirmButton) {
+            confirmButton.href = `https://wa.me/?text=${message}`;
+        }
     } catch (error) {
-        console.error('Error cargando DBInvitados:', error);
+        console.error('Error cargando invitado:', error);
         guestInfoDiv.innerHTML = `
             <p>⚠️ No se pudo verificar tu invitación en este momento.<br>
             Intenta más tarde o contacta a los novios 💌</p>
@@ -183,7 +162,7 @@ const DBInvitados = {
     }
 })();
 
-// === VALIDACIÓN DE CÓDIGO (solo se ejecuta en code.html) ===
+// === VALIDACIÓN DE CÓDIGO (solo se ejecuta en code.html, con endpoint remoto) ===
 (function () {
     const input = document.getElementById('code-input');
     const button = document.getElementById('code-button');
@@ -195,18 +174,22 @@ const DBInvitados = {
         if (!code) return;
 
         try {
-            const data = DBInvitados;
-            const guest = data[code];
-            if (guest) {
-                // Código válido: redirigir a index.html con el parámetro
+            const response = await fetch(
+                `https://script.google.com/macros/s/AKfycbyUQOg6Hyt_2jAkoscyLbHtK6f4VV2SC-G08NIAF6dYlEdC4EKnQFIkZOuuRp9x2WPsog/exec?code=${encodeURIComponent(code)}`
+            );
+            const result = await response.json();
+
+            if (result.code === "ok" && result.data) {
+                // ✅ Código válido: redirigir a index.html con el parámetro
                 window.location.href = `index.html?code=${encodeURIComponent(code)}`;
             } else {
-                // Código inválido: mostrar mensaje de error
+                // ❌ Código inválido: mostrar mensaje de error
+                errorMsg.textContent = "⚠️ Código no encontrado, revisa tu invitación 💌";
                 errorMsg.classList.remove('hidden');
             }
         } catch (err) {
-            console.error('Error leyendo JSON:', err);
-            errorMsg.textContent = '⚠️ Error verificando tu código, intenta más tarde 💌';
+            console.error("Error verificando código:", err);
+            errorMsg.textContent = "⚠️ Error verificando tu código, intenta más tarde 💌";
             errorMsg.classList.remove('hidden');
         }
     });
