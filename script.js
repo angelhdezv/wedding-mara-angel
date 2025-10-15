@@ -131,13 +131,21 @@
         const { name, tickets, confirmation } = result.data;
 
         guestInfoDiv.innerHTML = `
-      <p>👋 Hola <strong>${name}</strong>,</p>
-      <p>Este enlace incluye <strong>${tickets}</strong> boleto${tickets > 1 ? "s" : ""} 🎟️</p>
-      <div id="confirmed-message" class="hidden"></div>
-      <div class="actions">
-        <a id="confirm-button" class="btn confirm" href="#">Confirmar asistencia</a>
-      </div>
-    `;
+                                    <div class="ticket-card">
+                                        <h3 class="ticket-greeting">👋 ¡Hola ${name}!</h3>
+                                        <p class="ticket-detail">
+                                        Este enlace incluye <strong>${tickets}</strong> boleto${tickets > 1 ? 's' : ''} 🎟️ para nuestra boda 💍
+                                        </p>
+                                        <p class="ticket-note">
+                                        Tu nombre aparece en la lista de invitados.  
+                                        Te esperamos con cariño para celebrar este día tan especial.
+                                        </p>
+                                        <div id="confirmed-message" class="hidden"></div>
+                                        <div class="actions">
+                                        <a id="confirm-button" class="btn confirm" href="#">Confirmar asistencia</a>
+                                        </div>
+                                    </div>
+                                 `;
 
         const confirmBtn = document.getElementById("confirm-button");
         const confirmedMessage = document.getElementById("confirmed-message");

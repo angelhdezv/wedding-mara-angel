@@ -273,24 +273,6 @@ body {
     pointer-events: none;
 }
 
-.guest-info {
-    text-align: center;
-    background-color: #fffaf5;
-    border: 2px solid #f1df9b;
-    border-radius: 12px;
-    padding: 1rem;
-    margin: 2rem auto;
-    width: 80%;
-    max-width: 400px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    font-family: 'Playfair Display', serif;
-    color: #5a3d2e;
-}
-
-.guest-info strong {
-    color: #2c1a0b;
-}
-
 .header {
     background-color: #f3f3f3;
     text-align: center;
@@ -389,18 +371,6 @@ main {
     font-weight: 700;
 }
 
-.special-celebration {
-    background-color: #fff;
-    text-align: center;
-    padding: 2rem 1rem;
-    margin: 3rem 0;
-}
-
-.special-celebration h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-}
-
 .baptism-intro,
 .friends-wedding {
     margin-bottom: 1rem;
@@ -413,11 +383,65 @@ main {
     margin-bottom: 1rem;
 }
 
-.event-details {
-    background-color: #fafafa;
+.special-celebration {
+    background: #fffaf5;
+    border-top: 2px solid #f1df9b;
+    border-bottom: 2px solid #f1df9b;
+    padding: 3rem 1.5rem;
     text-align: center;
-    padding: 1.5rem 1rem;
+    color: #3b2c23;
+    font-family: 'Playfair Display', serif;
 }
+
+.celebration-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.celebration-title {
+    font-size: 1.8rem;
+    color: #5a3d2e;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.celebration-text {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.highlight {
+    color: #b6934a;
+    font-weight: 700;
+}
+
+.baptism-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #2c1a0b;
+    margin: 0.8rem 0 1.5rem;
+    font-style: italic;
+}
+
+.celebration-divider {
+    width: 60%;
+    margin: 2rem auto;
+    border: 0;
+    border-top: 1px solid #e1cfa0;
+}
+
+@media (min-width: 600px) {
+    .celebration-title {
+        font-size: 2rem;
+    }
+
+    .baptism-name {
+        font-size: 1.8rem;
+    }
+}
+
 
 .actions {
     text-align: center;
@@ -567,10 +591,6 @@ main {
         font-size: 1.25rem;
     }
 
-    .special-celebration h2 {
-        font-size: 2rem;
-    }
-
     .baptism-name {
         font-size: 2rem;
     }
@@ -694,4 +714,61 @@ main {
     border-radius: 50%;
     transform: translateY(-50%);
     animation: spin 0.9s linear infinite;
+}
+
+/* === TARJETA DE INVITADO / BOLETOS === */
+.ticket-card {
+  background: #fffaf5;
+  border: 2px solid #f1df9b;
+  border-radius: 14px;
+  padding: 2rem 1.5rem;
+  margin: 2rem auto;
+  max-width: 420px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  color: #3b2c23;
+  font-family: 'Playfair Display', serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.ticket-card::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(241, 223, 155, 0.4) 0%, transparent 70%);
+  z-index: 0;
+}
+
+.ticket-card h3 {
+  font-size: 1.5rem;
+  color: #5a3d2e;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.ticket-card p {
+  position: relative;
+  z-index: 1;
+}
+
+.ticket-detail {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #4a3c2f;
+}
+
+.ticket-note {
+  font-size: 0.95rem;
+  color: #6b4b3e;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+.ticket-card .actions {
+  margin-top: 1.5rem;
 }
