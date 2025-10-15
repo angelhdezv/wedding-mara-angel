@@ -82,17 +82,17 @@ body {
 /* === Cinta más elegante (menos saturada) === */
 .envelope::before,
 .envelope::after {
-  background: linear-gradient(90deg, #d2b46b, #f1df9b, #d2b46b);
-  box-shadow: 0 0 6px rgba(210, 180, 107, 0.4);
-  opacity: 0.8;
+    background: linear-gradient(90deg, #d2b46b, #f1df9b, #d2b46b);
+    box-shadow: 0 0 6px rgba(210, 180, 107, 0.4);
+    opacity: 0.8;
 }
 
 /* === Cuando se abre, la cinta desaparece elegantemente === */
 .envelope.open::before,
 .envelope.open::after {
-  opacity: 0;
-  transform: scaleX(0.6) rotate(-10deg);
-  transition: all 1s ease;
+    opacity: 0;
+    transform: scaleX(0.6) rotate(-10deg);
+    transition: all 1s ease;
 }
 
 /* === Lazo dorado decorativo === */
@@ -160,77 +160,78 @@ body {
 
 /* === Opcional: textura dentro del sobre === */
 .envelope {
-  position: relative;
-  width: 280px;
-  height: 190px;
-  background: #fef8f3;
-  border: 2px solid #d9bfa4;
-  border-radius: 6px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2),
-              inset 0 2px 4px rgba(255, 255, 255, 0.6);
-  cursor: pointer;
-  overflow: hidden;
-  background-image: radial-gradient(#fffaf5 1px, transparent 1px);
-  background-size: 12px 12px;
+    position: relative;
+    width: 280px;
+    height: 190px;
+    background: #fef8f3;
+    border: 2px solid #d9bfa4;
+    border-radius: 6px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2),
+        inset 0 2px 4px rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    overflow: hidden;
+    background-image: radial-gradient(#fffaf5 1px, transparent 1px);
+    background-size: 12px 12px;
 }
 
 /* === Solapa superior === */
 .envelope-flap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 55%;
-  background: #e0b89a;
-  clip-path: polygon(0 0, 50% 100%, 100% 0);
-  transform-origin: top;
-  transition: transform 1s ease;
-  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.2);
-  z-index: 3;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 55%;
+    background: #e0b89a;
+    clip-path: polygon(0 0, 50% 100%, 100% 0);
+    transform-origin: top;
+    transition: transform 1s ease;
+    box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 3;
 }
 
 /* === Cuerpo inferior === */
 .envelope-body {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 70%;
-  background: #f6e9da;
-  border-top: 2px solid #e0b89a;
-  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70%;
+    background: #f6e9da;
+    border-top: 2px solid #e0b89a;
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* === Texto del frente === */
 .envelope-front {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
-  text-align: center;
-  z-index: 7; /* ahora está encima del lazo y la cinta */
-  pointer-events: none;
-  transition: opacity 0.6s ease, transform 0.6s ease;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    text-align: center;
+    z-index: 7;
+    /* ahora está encima del lazo y la cinta */
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .front-names {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
-  color: #2c1a0b;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6),
-               0 0 2px rgba(0, 0, 0, 0.25);
-  font-weight: 700;
-  letter-spacing: 0.5px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: #2c1a0b;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6),
+        0 0 2px rgba(0, 0, 0, 0.25);
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 .front-hint {
-  font-size: 0.95rem;
-  color: #5a3d2e;
-  opacity: 0.9;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
+    font-size: 0.95rem;
+    color: #5a3d2e;
+    opacity: 0.9;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
 }
 
 .envelope.open .envelope-front {
@@ -273,20 +274,21 @@ body {
 }
 
 .guest-info {
-  text-align: center;
-  background-color: #fffaf5;
-  border: 2px solid #f1df9b;
-  border-radius: 12px;
-  padding: 1rem;
-  margin: 2rem auto;
-  width: 80%;
-  max-width: 400px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  font-family: 'Playfair Display', serif;
-  color: #5a3d2e;
+    text-align: center;
+    background-color: #fffaf5;
+    border: 2px solid #f1df9b;
+    border-radius: 12px;
+    padding: 1rem;
+    margin: 2rem auto;
+    width: 80%;
+    max-width: 400px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Playfair Display', serif;
+    color: #5a3d2e;
 }
+
 .guest-info strong {
-  color: #2c1a0b;
+    color: #2c1a0b;
 }
 
 .header {
@@ -448,7 +450,15 @@ main {
 }
 
 .location-block {
-    margin-bottom: 2rem;
+    background: #fffaf5;
+    border: 2px solid #f1df9b;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .icon {
@@ -487,36 +497,41 @@ main {
 
 /* === Pantalla de carga global === */
 #loading-screen {
-  position: fixed;
-  inset: 0;
-  background: #fff8f2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
+    position: fixed;
+    inset: 0;
+    background: #fff8f2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
 }
 
 #loading-screen.hide {
-  opacity: 0;
-  visibility: hidden;
+    opacity: 0;
+    visibility: hidden;
 }
 
 /* Animación del spinner */
 .loader {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #d6b389;
-  border-top: 4px solid transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 1rem;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #d6b389;
+    border-top: 4px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @media (min-width: 600px) {
@@ -565,103 +580,110 @@ main {
 
 /* === MODAL DE CONFIRMACIÓN === */
 .modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 5000;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5000;
 }
 
 .modal.hidden {
-  display: none;
+    display: none;
 }
 
 .modal-content {
-  background: #fffaf5;
-  border: 2px solid #f1df9b;
-  border-radius: 12px;
-  padding: 2rem;
-  width: 90%;
-  max-width: 420px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  position: relative;
-  animation: fadeIn 0.3s ease;
+    background: #fffaf5;
+    border: 2px solid #f1df9b;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 420px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.3s ease;
 }
 
 .modal h2 {
-  margin-bottom: 0.75rem;
-  color: #3b2c23;
+    margin-bottom: 0.75rem;
+    color: #3b2c23;
 }
 
 .modal p {
-  color: #5a3d2e;
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
+    color: #5a3d2e;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .modal-actions {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .modal-close {
-  position: absolute;
-  top: 10px;
-  right: 14px;
-  background: none;
-  border: none;
-  font-size: 1.4rem;
-  color: #5a3d2e;
-  cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: #5a3d2e;
+    cursor: pointer;
 }
 
 .modal input[type="number"] {
-  width: 80px;
-  padding: 0.4rem;
-  font-size: 1.2rem;
-  text-align: center;
-  border: 1px solid #d4b46a;
-  border-radius: 8px;
-  margin-bottom: 1rem;
+    width: 80px;
+    padding: 0.4rem;
+    font-size: 1.2rem;
+    text-align: center;
+    border: 1px solid #d4b46a;
+    border-radius: 8px;
+    margin-bottom: 1rem;
 }
 
 .btn-pill.secondary {
-  background-color: #c4b093;
+    background-color: #c4b093;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 /* === FIX: Ocultar pasos del modal correctamente === */
 .hidden {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
 }
 
 .btn-pill.loading {
-  position: relative;
-  pointer-events: none;
-  opacity: 0.8;
+    position: relative;
+    pointer-events: none;
+    opacity: 0.8;
 }
 
 .btn-pill.loading::after {
-  content: "";
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  width: 14px;
-  height: 14px;
-  border: 2px solid #fff;
-  border-top-color: transparent;
-  border-radius: 50%;
-  transform: translateY(-50%);
-  animation: spin 0.9s linear infinite;
+    content: "";
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    animation: spin 0.9s linear infinite;
 }
