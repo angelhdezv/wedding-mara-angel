@@ -230,58 +230,58 @@ function openModal(maxTickets, name, code) {
 
 // === ENVÍO DE CONFIRMACIÓN AL BACKEND ===
 async function sendConfirmation(code, guests, name, modal, showStep, stepSuccess) {
-  const confirmFinal = document.getElementById("confirm-final");
-  const originalText = confirmFinal.textContent;
-  const confirmedMessage = document.getElementById("confirmed-message");
-  const confirmBtn = document.getElementById("confirm-button");
+    const confirmFinal = document.getElementById("confirm-final");
+    const originalText = confirmFinal.textContent;
+    const confirmedMessage = document.getElementById("confirmed-message");
+    const confirmBtn = document.getElementById("confirm-button");
 
-  try {
-    confirmFinal.disabled = true;
-    confirmFinal.textContent = "Confirmando...";
-    confirmFinal.classList.add("loading");
+    try {
+        confirmFinal.disabled = true;
+        confirmFinal.textContent = "Confirmando...";
+        confirmFinal.classList.add("loading");
 
-    // ✅ Abrir WhatsApp inmediatamente (antes del fetch)
-    const msg = encodeURIComponent(
-      `Hola Maraitzi & Ángel, soy ${name}, confirmo la asistencia de ${guests} persona${guests > 1 ? "s" : ""} 💍`
-    );
-    window.open(`https://wa.me/?text=${msg}`, "_blank");
+        // ✅ Abrir WhatsApp inmediatamente (antes del fetch)
+        const msg = encodeURIComponent(
+            `Hola Maraitzi & Ángel, soy ${name}, confirmo la asistencia de ${guests} persona${guests > 1 ? "s" : ""} 💍`
+        );
+        window.open(`https://wa.me/?text=${msg}`, "_blank");
 
-    // Luego enviar la confirmación al backend
-    const res = await fetch(
-      "https://script.google.com/macros/s/AKfycbyPwS5RJsxdnrsbJpcaIGSlYcsHfC7PtqudxcX87EGab1cDGmDgW_vQT5uxaJlsbGsDmA/exec",
-      {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ code, guests }),
-      }
-    );
+        // Luego enviar la confirmación al backend
+        const res = await fetch(
+            "https://script.google.com/macros/s/AKfycbyPwS5RJsxdnrsbJpcaIGSlYcsHfC7PtqudxcX87EGab1cDGmDgW_vQT5uxaJlsbGsDmA/exec",
+            {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({ code, guests }),
+            }
+        );
 
-    const result = await res.json();
+        const result = await res.json();
 
-    if (result.code === "ok") {
-      showStep(stepSuccess);
+        if (result.code === "ok") {
+            showStep(stepSuccess);
 
-      const date = new Date().toLocaleString("es-MX");
-      if (confirmedMessage && confirmBtn) {
-        confirmBtn.classList.add("hidden");
-        confirmedMessage.classList.remove("hidden");
-        confirmedMessage.innerHTML = `
+            const date = new Date().toLocaleString("es-MX");
+            if (confirmedMessage && confirmBtn) {
+                confirmBtn.classList.add("hidden");
+                confirmedMessage.classList.remove("hidden");
+                confirmedMessage.innerHTML = `
           🎉 ¡Gracias, <strong>${name}</strong>!<br>
           Confirmaste la asistencia de <strong>${guests}</strong> persona${guests > 1 ? "s" : ""}<br>
           el día <em>${date}</em> 💍✨
         `;
-      }
-    } else {
-      alert("Ocurrió un error al guardar la confirmación.");
+            }
+        } else {
+            alert("Ocurrió un error al guardar la confirmación.");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Error al enviar confirmación. Intenta más tarde 💌");
+    } finally {
+        confirmFinal.disabled = false;
+        confirmFinal.textContent = originalText;
+        confirmFinal.classList.remove("loading");
     }
-  } catch (err) {
-    console.error(err);
-    alert("Error al enviar confirmación. Intenta más tarde 💌");
-  } finally {
-    confirmFinal.disabled = false;
-    confirmFinal.textContent = originalText;
-    confirmFinal.classList.remove("loading");
-  }
 }
 
 // === VALIDACIÓN DE CÓDIGO (solo se ejecuta en code.html, con endpoint remoto) ===
@@ -319,3 +319,47 @@ async function sendConfirmation(code, guests, name, modal, showStep, stepSuccess
         }
     });
 })();
+
+function downloadICS(type) {
+    let title, location, start, end, description;
+
+    if (type === "ceremonia") {
+        title = "Ceremonia Religiosa - Boda de Maraitzi & Ángel 💒";
+        location = "Iglesia del Señor del Perdón, Santa Cruz, Teoloyucan, México";
+        start = "20260131T184500Z"; // 12:45 hora CDMX = 18:45 UTC
+        end = "20260131T203000Z";
+        description = "Ceremonia religiosa de Maraitzi & Ángel 💍";
+    } else if (type === "recepcion") {
+        title = "Recepción - Boda de Maraitzi & Ángel 🥂";
+        location = "Salón de Eventos Granja María Elena, Santiago, Teoloyucan, México";
+        start = "20260131T210000Z"; // 14:00 hora CDMX = 20:00 UTC
+        end = "20260201T050000Z";   // hasta 8 p.m. aprox
+        description = "Recepción y celebración de la boda 💃✨";
+    }
+
+    // 🔥 ICS limpio y 100% compatible
+    const icsContent = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "CALSCALE:GREGORIAN",
+        "PRODID:-//Maraitzi&Angel//Boda//ES",
+        "BEGIN:VEVENT",
+        `UID:${type}@boda-maraitzi-angel.com`,
+        `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").split(".")[0]}Z`,
+        `DTSTART:${start}`,
+        `DTEND:${end}`,
+        `SUMMARY:${title}`,
+        `LOCATION:${location}`,
+        `DESCRIPTION:${description}`,
+        "END:VEVENT",
+        "END:VCALENDAR",
+    ].join("\r\n");
+
+    const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `Boda-Maraitzi-Angel-${type}.ics`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
