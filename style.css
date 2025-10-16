@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+/* === Tipografías === */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap');
 
 * {
     box-sizing: border-box;
@@ -6,11 +7,59 @@
     padding: 0;
 }
 
+/* === Fuente base === */
 body {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Poppins', 'Segoe UI', Roboto, sans-serif;
     background-color: #fff;
     color: #333;
-    line-height: 1.5;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+/* === Jerarquía tipográfica === */
+
+/* Títulos principales */
+h1,
+h2,
+h3,
+.logo,
+.baptism-name,
+.celebration-title,
+.hotels-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+/* Subtítulos, detalles elegantes */
+.front-names,
+.signature,
+.highlight,
+.location-subtitle,
+.ticket-detail {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+}
+
+/* Texto normal, botones, descripciones */
+body,
+p,
+.intro-text,
+.front-hint,
+.btn,
+.btn-pill,
+.modal p,
+.hotel-desc {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+/* Botones y títulos secundarios más marcados */
+.btn,
+.btn-pill,
+.modal h2 {
+    font-weight: 600;
+    letter-spacing: 0.03em;
 }
 
 /* ==============================
@@ -718,142 +767,142 @@ main {
 
 /* === TARJETA DE INVITADO / BOLETOS === */
 .ticket-card {
-  background: #fffaf5;
-  border: 2px solid #f1df9b;
-  border-radius: 14px;
-  padding: 2rem 1.5rem;
-  margin: 2rem auto;
-  max-width: 420px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  text-align: center;
-  color: #3b2c23;
-  font-family: 'Playfair Display', serif;
-  position: relative;
-  overflow: hidden;
+    background: #fffaf5;
+    border: 2px solid #f1df9b;
+    border-radius: 14px;
+    padding: 2rem 1.5rem;
+    margin: 2rem auto;
+    max-width: 420px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    color: #3b2c23;
+    font-family: 'Playfair Display', serif;
+    position: relative;
+    overflow: hidden;
 }
 
 .ticket-card::before {
-  content: "";
-  position: absolute;
-  top: -60px;
-  right: -60px;
-  width: 160px;
-  height: 160px;
-  background: radial-gradient(circle, rgba(241, 223, 155, 0.4) 0%, transparent 70%);
-  z-index: 0;
+    content: "";
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle, rgba(241, 223, 155, 0.4) 0%, transparent 70%);
+    z-index: 0;
 }
 
 .ticket-card h3 {
-  font-size: 1.5rem;
-  color: #5a3d2e;
-  margin-bottom: 1rem;
-  position: relative;
-  z-index: 1;
+    font-size: 1.5rem;
+    color: #5a3d2e;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
 }
 
 .ticket-card p {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
 }
 
 .ticket-detail {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  color: #4a3c2f;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #4a3c2f;
 }
 
 .ticket-note {
-  font-size: 0.95rem;
-  color: #6b4b3e;
-  opacity: 0.9;
-  font-style: italic;
+    font-size: 0.95rem;
+    color: #6b4b3e;
+    opacity: 0.9;
+    font-style: italic;
 }
 
 .ticket-card .actions {
-  margin-top: 1.5rem;
+    margin-top: 1.5rem;
 }
 
 .hotels {
-  background: #fffaf5;
-  border-top: 2px solid #f1df9b;
-  border-bottom: 2px solid #f1df9b;
-  padding: 3rem 1.5rem;
-  text-align: center;
-  color: #3b2c23;
-  font-family: 'Playfair Display', serif;
+    background: #fffaf5;
+    border-top: 2px solid #f1df9b;
+    border-bottom: 2px solid #f1df9b;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: #3b2c23;
+    font-family: 'Playfair Display', serif;
 }
 
 .hotels-title {
-  font-size: 1.8rem;
-  color: #5a3d2e;
-  margin-bottom: 1rem;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+    font-size: 1.8rem;
+    color: #5a3d2e;
+    margin-bottom: 1rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
 }
 
 .hotels-intro {
-  font-size: 1rem;
-  margin-bottom: 2rem;
-  color: #5a3d2e;
-  opacity: 0.9;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: #5a3d2e;
+    opacity: 0.9;
 }
 
 .hotel-list {
-  display: grid;
-  gap: 1.5rem;
-  max-width: 800px;
-  margin: 0 auto;
+    display: grid;
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .hotel-card {
-  background: #fff;
-  border: 2px solid #f1df9b;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #fff;
+    border: 2px solid #f1df9b;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hotel-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
 .hotel-name {
-  font-size: 1.2rem;
-  color: #4a3c2f;
-  margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    color: #4a3c2f;
+    margin-bottom: 0.5rem;
 }
 
 .hotel-desc {
-  font-size: 0.95rem;
-  color: #6b4b3e;
-  margin-bottom: 1rem;
-  opacity: 0.9;
+    font-size: 0.95rem;
+    color: #6b4b3e;
+    margin-bottom: 1rem;
+    opacity: 0.9;
 }
 
 .hotel-img {
-  width: 100%;
-  height: 180px;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    height: 180px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .hotel-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
 }
 
 .hotel-card:hover .hotel-img img {
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 @media (min-width: 700px) {
-  .hotel-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
+    .hotel-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
