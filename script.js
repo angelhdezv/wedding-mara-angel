@@ -371,3 +371,28 @@ function downloadICS(type) {
     link.click();
     document.body.removeChild(link);
 }
+
+const giftButton = document.getElementById('gift-button');
+const giftModal = document.getElementById('gift-modal');
+const giftCloseBtn = document.getElementById('gift-close');
+const giftModalClose = document.getElementById('gift-modal-close');
+
+giftButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    giftModal.classList.remove('hidden');
+});
+
+giftCloseBtn.addEventListener('click', () => {
+    giftModal.classList.add('hidden');
+});
+
+giftModalClose.addEventListener('click', () => {
+    giftModal.classList.add('hidden');
+});
+
+// Cerrar al dar click fuera del modal
+giftModal.addEventListener('click', (e) => {
+    if (e.target === giftModal) {
+        giftModal.classList.add('hidden');
+    }
+});

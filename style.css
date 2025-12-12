@@ -906,3 +906,17 @@ main {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+.gift-help {
+    text-align: center;
+    padding: 3rem 1.5rem;
+}
+
+.gift-title {
+    margin-bottom: 0.5rem;
+}
+
+.gift-text {
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
